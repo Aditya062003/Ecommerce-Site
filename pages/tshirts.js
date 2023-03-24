@@ -4,7 +4,7 @@ import React from 'react'
 const Tshirts = () => {
   return (
     <section class="text-gray-600  body-font">
-    <div class="container py-24 m-auto ">
+    <div class="container py-12 m-auto ">
       <div class="flex flex-wrap justify-center">
         <Link legacyBehavior href={'/'}>
         
