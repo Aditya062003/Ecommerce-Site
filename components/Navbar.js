@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AiFillCloseCircle, AiOutlineShoppingCart,AiOutlinePlusCircle,AiOutlineMinusCircle } from 'react-icons/ai';
 import {BsFillBagCheckFill} from 'react-icons/bs'
-
+import {MdAccountCircle} from 'react-icons/md'
 
 const Navbar = ({cart,addToCart,clearCart,removeFromCart,subtotal}) => {
   console.log(cart,addToCart,clearCart,removeFromCart,subtotal)
@@ -31,8 +31,8 @@ const Navbar = ({cart,addToCart,clearCart,removeFromCart,subtotal}) => {
           <Link legacyBehavior href={'/stickers'}><a className='hover:text-transparent hover:bg-gradient-to-t from-blue-900 to-indigo-300 bg-clip-text'><li>Stickers</li></a></Link> 
         </ul>
       </div>
-      <div onClick={toggleCart} className="cart font-bold absolute right-1 mr-4 cursor-pointer">
-        <AiOutlineShoppingCart className='text-2xl md:text-3xl'/>
+      <div className="cart font-bold absolute right-1 mr-4 cursor-pointer flex">
+        <Link href={'/login'}><MdAccountCircle className='text-2xl md:text-3xl mx-2'/></Link><AiOutlineShoppingCart onClick={toggleCart} className='text-2xl md:text-3xl'/>
       </div>
 
       <div ref={ref} className={`w-[36vh] h-[100vh] fixed px-6 py-10 sidecart top-0 right-0 p-10 bg-blue-50 transform transition-transform ${Object.keys(cart).length!==0?'translate-x-0':'translate-x-full'}`}>
