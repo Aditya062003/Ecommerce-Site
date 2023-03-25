@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import mongoose from 'mongoose'
+import Product from "../../models/Product";
 
-const Post = ({addToCart}) => {
+
+const Post = ({addToCart,product,variants}) => {
+  console.log(product,variants)
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setpin] = useState();
@@ -19,6 +23,13 @@ const Post = ({addToCart}) => {
 
   const onChangePin = (e) =>{
     setpin(e.target.value)
+  }
+
+  const [color,setcolor]=useState(product.color)
+  const [size,setsize]=useState(product.size)
+  const refreshVariants=(newsize,newcolor)=>{
+      let url=`http://localhost:3000/product/${variants[newcolor][newsize]['slug']}`
+      window.location=url
   }
 
   return (
@@ -147,18 +158,20 @@ const Post = ({addToCart}) => {
               <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div class="flex">
                   <span class="mr-3">Color</span>
-                  <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button class="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                  <button class="border-2 border-gray-300 ml-1 bg-indigo-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                  {Object.keys(variants).includes('White') && Object.keys(variants['White']).includes(size) && <button onClick={()=>{refreshVariants(size,'White')}}  class={`border-2 ${color == 'White'?'border-black' : 'border-gray-500'} mx-1 rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variants).includes('Black') && Object.keys(variants['Black']).includes(size) && <button  onClick={()=>{refreshVariants(size,'Black')}} class={`border-2 ${color == 'Black'?'border-black' : 'border-gray-500'} mx-1 bg-black rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variants).includes('Red') && Object.keys(variants['Red']).includes(size) && <button onClick={()=>{refreshVariants(size,'Red')}}  class={`border-2 bg-red-600 mx-1 ${color == 'Red'?'border-black' : 'border-gray-500'} rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variants).includes('Blue') && Object.keys(variants['Blue']).includes(size) && <button onClick={()=>{refreshVariants(size,'Blue')}}  class={`border-2 mx-1 bg-indigo-700 ${color == 'Blue'?'border-black' : 'border-gray-500'} rounded-full w-6 h-6 focus:outline-none`}></button>}
                 </div>
                 <div class="flex ml-6 items-center">
                   <span class="mr-3">Size</span>
                   <div class="relative">
-                    <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
-                      <option>SM</option>
-                      <option>M</option>
-                      <option>L</option>
-                      <option>XL</option>
+                    <select value={size} onChange={(e)=>{refreshVariants(e.target.value,color)}} class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                      {Object.keys(variants[color]).includes('S') && <option>S</option>}
+                      {Object.keys(variants[color]).includes('M') && <option>M</option>}
+                      {Object.keys(variants[color]).includes('L') && <option>L</option>}
+                      {Object.keys(variants[color]).includes('XL') && <option>XL</option>}
+                      {Object.keys(variants[color]).includes('XXL') && <option>XXL</option>}
                     </select>
                     <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                       <svg
@@ -225,5 +238,29 @@ const Post = ({addToCart}) => {
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  if (!mongoose.connections[0].readyState) {
+    await mongoose.connect(
+      "mongodb+srv://aditya:aditya@cluster0.ypoa7js.mongodb.net/ecommerceretryWrites=true&w=majority"
+    );
+  }
+  let product = await Product.findOne({ slug:context.query.slug });
+  let variants = await Product.find({title:product.title})
+  let colorSizeSlug = {}
+  for(let item of variants){
+    if(Object.keys(colorSizeSlug).includes(item.color)){
+      colorSizeSlug[item.color][item.size]={slug: item.slug}
+    }else{
+      colorSizeSlug[item.color]={}
+      colorSizeSlug[item.color][item.size]={slug: item.slug}
+    }
+  }
+  
+  return {
+    props: { product: JSON.parse(JSON.stringify(product)),variants:JSON.parse(JSON.stringify(colorSizeSlug)) },
+  };
+}
+
 
 export default Post;
