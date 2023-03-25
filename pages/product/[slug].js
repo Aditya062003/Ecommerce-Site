@@ -1,55 +1,76 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 import Product from "../../models/Product";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-
-const Post = ({addToCart,product,variants}) => {
-  console.log(product,variants)
+const Post = ({ buyNow, addToCart, product, variants }) => {
+  console.log(product, variants);
   const router = useRouter();
   const { slug } = router.query;
   const [pin, setpin] = useState();
   const [service, setservice] = useState();
-  const checkServicability=async()=>{
-    let pins= await fetch('http://localhost:3000/api/pincode')
-    let pinJson = await pins.json()
-    if(pinJson.includes(parseInt(pin))){
-      setservice(true)
+  const checkServicability = async () => {
+    let pins = await fetch("http://localhost:3000/api/pincode");
+    let pinJson = await pins.json();
+    if (pinJson.includes(parseInt(pin))) {
+      setservice(true);
+      toast.success("Your Pincode is serviceable!", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      setservice(false);
+      toast.error("Sorry, Your Pincode is not serviceable!", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
-    else{
-      setservice(false)
-    }
-  }
+  };
 
-  const onChangePin = (e) =>{
-    setpin(e.target.value)
-  }
+  const onChangePin = (e) => {
+    setpin(e.target.value);
+  };
 
-  const [color,setcolor]=useState(product.color)
-  const [size,setsize]=useState(product.size)
-  const refreshVariants=(newsize,newcolor)=>{
-      let url=`http://localhost:3000/product/${variants[newcolor][newsize]['slug']}`
-      window.location=url
-  }
+  const [color, setcolor] = useState(product.color);
+  const [size, setsize] = useState(product.size);
+  const refreshVariants = (newsize, newcolor) => {
+    let url = `http://localhost:3000/product/${variants[newcolor][newsize]["slug"]}`;
+    window.location = url;
+  };
 
   return (
     <>
       <section class="text-gray-600 body-font overflow-hidden">
+        <ToastContainer />
         <div class="container px-5 py-12 mx-auto">
           <div class="lg:w-4/5 mx-auto flex flex-wrap">
             <img
               alt="ecommerce"
-              class="lg:w-1/2 w-full lg:h-auto px-8 object-cover object-top rounded"
-              src="https://m.media-amazon.com/images/I/713n+TxyfCL._AC_UL480_FMwebp_QL65_.jpg"
+              class="lg:w-1/2 w-full lg:h-auto px-6 object-cover object-top rounded"
+              src={product.img}
             />
-            <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            <div class="lg:w-1/2  w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
               <h2 class="text-sm title-font text-gray-500 tracking-widest">
-                BRAND NAME
+                Care-Leisure
               </h2>
               <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
-                The Catcher in the Rye
+                {product.title}({product.size}/{product.color})
               </h1>
-              <div class="flex mb-4">
+              {/* <div class="flex mb-4">
                 <span class="flex items-center">
                   <svg
                     fill="currentColor"
@@ -146,32 +167,81 @@ const Post = ({addToCart,product,variants}) => {
                     </svg>
                   </a>
                 </span>
-              </div>
-              <p class="leading-relaxed">
-                Fam locavore kickstarter distillery. Mixtape chillwave tumeric
-                sriracha taximy chia microdosing tilde DIY. XOXO fam indxgo
-                juiceramps cornhole raw denim forage brooklyn. Everyday carry +1
-                seitan poutine tumeric. Gastropub blue bottle austin listicle
-                pour-over, neutra jean shorts keytar banjo tattooed umami
-                cardigan.
-              </p>
+              </div> */}
+              <p class="leading-relaxed">{product.desc}</p>
               <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div class="flex">
                   <span class="mr-3">Color</span>
-                  {Object.keys(variants).includes('White') && Object.keys(variants['White']).includes(size) && <button onClick={()=>{refreshVariants(size,'White')}}  class={`border-2 ${color == 'White'?'border-black' : 'border-gray-500'} mx-1 rounded-full w-6 h-6 focus:outline-none`}></button>}
-                  {Object.keys(variants).includes('Black') && Object.keys(variants['Black']).includes(size) && <button  onClick={()=>{refreshVariants(size,'Black')}} class={`border-2 ${color == 'Black'?'border-black' : 'border-gray-500'} mx-1 bg-black rounded-full w-6 h-6 focus:outline-none`}></button>}
-                  {Object.keys(variants).includes('Red') && Object.keys(variants['Red']).includes(size) && <button onClick={()=>{refreshVariants(size,'Red')}}  class={`border-2 bg-red-600 mx-1 ${color == 'Red'?'border-black' : 'border-gray-500'} rounded-full w-6 h-6 focus:outline-none`}></button>}
-                  {Object.keys(variants).includes('Blue') && Object.keys(variants['Blue']).includes(size) && <button onClick={()=>{refreshVariants(size,'Blue')}}  class={`border-2 mx-1 bg-indigo-700 ${color == 'Blue'?'border-black' : 'border-gray-500'} rounded-full w-6 h-6 focus:outline-none`}></button>}
+                  {Object.keys(variants).includes("White") &&
+                    Object.keys(variants["White"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "White");
+                        }}
+                        class={`border-2 ${
+                          color == "White" ? "border-black" : "border-gray-500"
+                        } mx-1 rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
+                  {Object.keys(variants).includes("Black") &&
+                    Object.keys(variants["Black"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "Black");
+                        }}
+                        class={`border-2 ${
+                          color == "Black" ? "border-black" : "border-gray-500"
+                        } mx-1 bg-black rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
+                  {Object.keys(variants).includes("Red") &&
+                    Object.keys(variants["Red"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "Red");
+                        }}
+                        class={`border-2 bg-red-600 mx-1 ${
+                          color == "Red" ? "border-black" : "border-gray-500"
+                        } rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
+                  {Object.keys(variants).includes("Blue") &&
+                    Object.keys(variants["Blue"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "Blue");
+                        }}
+                        class={`border-2 mx-1 bg-indigo-700 ${
+                          color == "Blue" ? "border-black" : "border-gray-500"
+                        } rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
                 </div>
                 <div class="flex ml-6 items-center">
                   <span class="mr-3">Size</span>
                   <div class="relative">
-                    <select value={size} onChange={(e)=>{refreshVariants(e.target.value,color)}} class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
-                      {Object.keys(variants[color]).includes('S') && <option>S</option>}
-                      {Object.keys(variants[color]).includes('M') && <option>M</option>}
-                      {Object.keys(variants[color]).includes('L') && <option>L</option>}
-                      {Object.keys(variants[color]).includes('XL') && <option>XL</option>}
-                      {Object.keys(variants[color]).includes('XXL') && <option>XXL</option>}
+                    <select
+                      value={size}
+                      onChange={(e) => {
+                        refreshVariants(e.target.value, color);
+                      }}
+                      class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10"
+                    >
+                      {Object.keys(variants[color]).includes("S") && (
+                        <option>S</option>
+                      )}
+                      {Object.keys(variants[color]).includes("M") && (
+                        <option>M</option>
+                      )}
+                      {Object.keys(variants[color]).includes("L") && (
+                        <option>L</option>
+                      )}
+                      {Object.keys(variants[color]).includes("XL") && (
+                        <option>XL</option>
+                      )}
+                      {Object.keys(variants[color]).includes("XXL") && (
+                        <option>XXL</option>
+                      )}
                     </select>
                     <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                       <svg
@@ -193,13 +263,37 @@ const Post = ({addToCart,product,variants}) => {
                 <span class="title-font font-medium text-2xl ml-2 text-gray-900">
                   ₹490
                 </span>
-                <button class="flex ml-14 text-white bg-indigo-500 border-0 text-sm py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                <button
+                  onClick={() => {
+                    buyNow(
+                      slug,
+                      1,
+                      499,
+                      product.title,
+                      product.size,
+                      product.color
+                    );
+                  }}
+                  class="flex ml-14 text-white bg-indigo-500 border-0 text-sm py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                >
                   Buy Now
                 </button>
-                <button onClick={()=>{addToCart(slug,1,499,'Cool Jeans','XL',"Black")}} class="flex ml-6 text-white bg-indigo-500 border-0 text-sm py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                <button
+                  onClick={() => {
+                    addToCart(
+                      slug,
+                      1,
+                      499,
+                      product.title,
+                      product.size,
+                      product.color
+                    );
+                  }}
+                  class="flex ml-6 text-white bg-indigo-500 border-0 text-sm py-2 px-2 md:px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                >
                   Add to Cart
                 </button>
-                <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                {/* <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                   <svg
                     fill="currentColor"
                     stroke-linecap="round"
@@ -210,27 +304,36 @@ const Post = ({addToCart,product,variants}) => {
                   >
                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                   </svg>
-                </button>
+                </button> */}
               </div>
               <div className="flex mt-6 pin">
-              <div class="relative">
-                <input
-                  type="email"
-                  placeholder="Enter Your Pincode"
-                  onChange={onChangePin}
-                  id="email"
-                  name="email"
-                  class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none px-4 text-gray-700 leading-8 transition-colors duration-200 ease-in-out"
-                />
+                <div class="relative">
+                  <input
+                    type="email"
+                    placeholder="Enter Your Pincode"
+                    onChange={onChangePin}
+                    id="email"
+                    name="email"
+                    class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none px-4 text-gray-700 leading-8 transition-colors duration-200 ease-in-out"
+                  />
+                </div>
+                <button
+                  onClick={checkServicability}
+                  class="text-white bg-indigo-500 border-0 mx-10 px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm"
+                >
+                  Check
+                </button>
               </div>
-              <button onClick={checkServicability} class="text-white bg-indigo-500 border-0 mx-10 px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm">Check</button>
-              </div>
-              {service && service!=null && <div className="mt-3 text-sm text-green-700">
-                Yay ! This pincode is servicable.
-              </div>}
-              {!service && service!=null && <div className="mt-3 text-sm text-red-700">
-                Sorry ! We do not deliver to this pin yet.
-              </div>}
+              {service && service != null && (
+                <div className="mt-3 text-sm text-green-700">
+                  Yay ! This pincode is servicable.
+                </div>
+              )}
+              {!service && service != null && (
+                <div className="mt-3 text-sm text-red-700">
+                  Sorry ! We do not deliver to this pin yet.
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -245,22 +348,24 @@ export async function getServerSideProps(context) {
       "mongodb+srv://aditya:aditya@cluster0.ypoa7js.mongodb.net/ecommerceretryWrites=true&w=majority"
     );
   }
-  let product = await Product.findOne({ slug:context.query.slug });
-  let variants = await Product.find({title:product.title})
-  let colorSizeSlug = {}
-  for(let item of variants){
-    if(Object.keys(colorSizeSlug).includes(item.color)){
-      colorSizeSlug[item.color][item.size]={slug: item.slug}
-    }else{
-      colorSizeSlug[item.color]={}
-      colorSizeSlug[item.color][item.size]={slug: item.slug}
+  let product = await Product.findOne({ slug: context.query.slug });
+  let variants = await Product.find({ title: product.title });
+  let colorSizeSlug = {};
+  for (let item of variants) {
+    if (Object.keys(colorSizeSlug).includes(item.color)) {
+      colorSizeSlug[item.color][item.size] = { slug: item.slug };
+    } else {
+      colorSizeSlug[item.color] = {};
+      colorSizeSlug[item.color][item.size] = { slug: item.slug };
     }
   }
-  
+
   return {
-    props: { product: JSON.parse(JSON.stringify(product)),variants:JSON.parse(JSON.stringify(colorSizeSlug)) },
+    props: {
+      product: JSON.parse(JSON.stringify(product)),
+      variants: JSON.parse(JSON.stringify(colorSizeSlug)),
+    },
   };
 }
-
 
 export default Post;
