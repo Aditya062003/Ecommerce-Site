@@ -33,7 +33,7 @@ const Navbar = ({ cart, addToCart, clearCart, removeFromCart, subtotal }) => {
         <ul className="flex space-x-5 md:space-x-10 md:text-xl text-xs font-bold">
           <Link legacyBehavior href={"/tshirts"}>
             <a className="hover:text-transparent hover:bg-gradient-to-t from-blue-900 to-indigo-300 bg-clip-text">
-              <li>T-Shirts</li>
+              <li>T-Shits</li>
             </a>
           </Link>
           <Link legacyBehavior href={"/hoodies"}>
