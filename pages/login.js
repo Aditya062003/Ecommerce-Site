@@ -1,9 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
+  const Router = useRouter();
+  const [email, setemail] = useState();
+  const [password, setpassword] = useState();
+
+  const handleChange = (e) => {
+    if (e.target.name == "email") {
+      setemail(e.target.value);
+    } else if (e.target.name == "password") {
+      setpassword(e.target.value);
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = { email, password };
+    let res = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let response = await res.json();
+    console.log(response);
+    setemail("");
+    setpassword("");
+    if (response.success) {
+      localStorage.setItem('token',response.token)
+      toast.success("You are successfully logged in!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        Router.push("http://localhost:3000");
+      }, 2000);
+    } else {
+      toast.error(response.error, {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  };
   return (
     <section className="h-screen m-auto">
+      <ToastContainer />
       <div className="container h-full px-6 py-24 m-auto">
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between m-auto">
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
@@ -14,7 +71,7 @@ const Login = () => {
             />
           </div>
           <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
-            <form>
+            <form onSubmit={handleSubmit} method="POST">
               <div class="container flex">
                 <div class="lg:w-3/4 bg-white rounded-lg p-8 flex flex-col mx-auto w-full mt-10 md:mt-0 shadow-xl">
                   <h1 class="text-gray-900 mb-3 text-2xl text-center font-bold title-font">
@@ -25,6 +82,8 @@ const Login = () => {
                       Email
                     </label>
                     <input
+                      onChange={handleChange}
+                      value={email}
                       type="email"
                       id="email"
                       name="email"
@@ -39,6 +98,8 @@ const Login = () => {
                       Password
                     </label>
                     <input
+                      onChange={handleChange}
+                      value={password}
                       type="password"
                       id="password"
                       name="password"
@@ -51,16 +112,14 @@ const Login = () => {
                   </button>
                   <div className="mt-3">
                     <Link legacyBehavior href={"/forgot"}>
-                      <a
-                        class="text-primary transition duration-150 ease-in-out hover:text-indigo-900 text-indigo-700"
-                      >
+                      <a class="text-primary transition duration-150 ease-in-out hover:text-indigo-900 text-indigo-700">
                         Forgot password?
                       </a>
                     </Link>
                   </div>
                   <div class="flex items-center justify-between mt-6 pb-6">
-                    <p class="mb-0 mr-2">Don't have an account?</p>
-                    <Link href={'/signup'}>
+                    <p class="mb-0 mr-2">Do not have an account?</p>
+                    <Link href={"/signup"}>
                       <button
                         type="button"
                         className="text-indigo-600 border border-indigo-600 py-2 px-4 focus:outline-none hover:text-white hover:bg-indigo-600 rounded text-lg"
