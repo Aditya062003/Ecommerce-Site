@@ -50,7 +50,7 @@ const Footer = () => {
         </nav>
       </div>
       <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-        <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CINTACT</h2>
+        <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">CONTACT</h2>
         <nav class="list-none mb-10">
           <li>
             <a class="text-gray-600 hover:text-gray-800">First Link</a>
