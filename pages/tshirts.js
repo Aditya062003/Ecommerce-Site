@@ -13,7 +13,7 @@ const Tshirts = ({ products }) => {
           {Object.keys(products).map((item) => {
             return (
               <Link key={item} legacyBehavior href={`/product/${products[item].slug}`}>
-                <div class="lg:w-1/5 cursor-pointer m-4 shadow-md hover:shadow-xl md:w-1/2 p-4 w-full">
+                <div class="lg:w-1/5 cursor-pointerfhost m-4 shadow-md hover:shadow-xl md:w-1/2 p-4 w-full">
                   <a class="block relative rounded overflow-hidden">
                     <img
                       alt="ecommerce"
