@@ -2,11 +2,20 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {useEffect} from 'react'
+import { useRouter } from "next/router";
 
 const Signup = () => {
-  const [name, setname] = useState();
-  const [email, setemail] = useState();
-  const [password, setpassword] = useState();
+  let Router=useRouter()
+  const [name, setname] = useState('');
+  const [email, setemail] = useState('');
+  const [password, setpassword] = useState('');
+
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+      Router.push('/')
+    }
+  }, []);
 
   const handleChange=(e)=>{
     if(e.target.name=='name'){
@@ -20,7 +29,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { name, email, password };
-    let res = await fetch("http://localhost:3000/api/signup", {
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +37,7 @@ const Signup = () => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
-    console.log(response)
+    // console.log(response)
     setemail('')
     setname('')
     setpassword('')
