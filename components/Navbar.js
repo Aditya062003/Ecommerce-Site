@@ -9,9 +9,18 @@ import {
 } from "react-icons/ai";
 import { BsFillBagCheckFill } from "react-icons/bs";
 import { MdAccountCircle } from "react-icons/md";
+import { useState } from "react";
 
-const Navbar = ({ cart, addToCart, clearCart, removeFromCart, subtotal }) => {
-  console.log(cart, addToCart, clearCart, removeFromCart, subtotal);
+const Navbar = ({
+  logout,
+  user,
+  cart,
+  addToCart,
+  clearCart,
+  removeFromCart,
+  subtotal,
+}) => {
+  const [dropdown, setdropdown] = useState(false);
   const ref = useRef();
   const toggleCart = () => {
     if (ref.current.classList.contains("translate-x-full")) {
@@ -29,11 +38,12 @@ const Navbar = ({ cart, addToCart, clearCart, removeFromCart, subtotal }) => {
           <Image src="/logo.png" width={70} height={70} alt="" />
         </Link>
       </div>
+
       <div className="nav mx-auto ">
         <ul className="flex space-x-5 md:space-x-10 md:text-xl text-xs font-bold">
           <Link legacyBehavior href={"/tshirts"}>
             <a className="hover:text-transparent hover:bg-gradient-to-t from-blue-900 to-indigo-300 bg-clip-text">
-              <li>T-Shits</li>
+              <li>T-Shirts</li>
             </a>
           </Link>
           <Link legacyBehavior href={"/hoodies"}>
@@ -53,10 +63,41 @@ const Navbar = ({ cart, addToCart, clearCart, removeFromCart, subtotal }) => {
           </Link>
         </ul>
       </div>
-      <div className="cart font-bold absolute right-1 mr-4 cursor-pointer flex">
-        <Link href={"/login"}>
-          <MdAccountCircle className="text-2xl md:text-3xl mx-2" />
-        </Link>
+      <div className="cart font-bold absolute right-1 mb-4 md:mb-0 items-center mx-4 gap-x-2 cursor-pointer flex">
+        <span
+          onMouseOver={() => {
+            setdropdown(true);
+          }}
+          onMouseLeave={() => {
+            setdropdown(false);
+          }}
+        >
+          {dropdown && (
+            <div
+              onMouseOver={() => {
+                setdropdown(true);
+              }}
+              onMouseLeave={() => {
+                setdropdown(false);
+              }}
+              className="absolute top-7 rounded-md px-5 bg-gray-100 right-12 w-32"
+            >
+              <ul>
+                <Link legacyBehavior href={'/myaccount'}><a><li className="text-sm py-1 font-medium hover:text-indigo-700"> My Account</li></a></Link>
+                <Link legacyBehavior href={'/orders'}><a><li className="text-sm py-1 font-medium hover:text-indigo-700"> Orders</li></a></Link>
+                <a onClick={logout}><li className="text-sm py-1 font-medium hover:text-indigo-700"> Signout</li></a>
+              </ul>
+            </div>
+          )}
+        {user.value && <MdAccountCircle className="text-xl md:text-3xl mx-2" />}
+        </span>
+          {!user.value && (
+            <Link legacyBehavior href={"/login"}>
+              <a class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg  text-sm px-2 md:py-1.5 text-center mr-3 md:mr-4">
+                Login
+              </a>
+            </Link>
+          )}
         <AiOutlineShoppingCart
           onClick={toggleCart}
           className="text-2xl md:text-3xl"
@@ -89,7 +130,7 @@ const Navbar = ({ cart, addToCart, clearCart, removeFromCart, subtotal }) => {
                 <div className="flex my-4">
                   <span className="w-2/3 font-semibold">
                     {cart[k].name}({cart[k].size}/ {cart[k].variant})
-                  </span> 
+                  </span>
                   <span className="w-1/3 font-semibold flex items-center justify-center">
                     <AiOutlineMinusCircle
                       className="mx-2 cursor-pointer text-3xl"
