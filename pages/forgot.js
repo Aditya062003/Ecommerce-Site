@@ -1,7 +1,15 @@
 import React from "react";
 import Link from "next/link";
+import {useEffect} from 'react'
+import { useRouter } from "next/router";
 
 const Login = () => {
+  let Router=useRouter()
+  useEffect(() => {
+    if(localStorage.getItem('token')){
+      Router.push('/')
+    }
+  }, []);
   return (
     <section className="h-screen m-auto">
       <div className="container h-full px-6 py-24 m-auto">
