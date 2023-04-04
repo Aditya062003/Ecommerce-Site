@@ -2,6 +2,7 @@
 // const PaytmChecksum = require("paytmchecksum");
 
 import connectDb from "../../middleware/mongoose";
+import Product from "../../models/Product";
 import Order from "../../models/Order";
 // export default async function handler(req, res) {
 //   if (req.method == "POST") {
@@ -78,16 +79,46 @@ import Order from "../../models/Order";
 const handler = async (req, res) => {
   if (req.method == "POST") {
     console.log(req.body);
+    let product,
+      sumtotal = 0;
+    let cart = req.body.cart;
+    for (let item in cart) {
+      console.log(item);
+      sumtotal=cart[item].price*cart[item].qty
+      product = await Product.findOne({ slug: item });
+      if (product.price != cart[item].price) {
+        res.status(200).json({success:false, error: "The price of some items in your cart has been changed!Please try again." });
+        return
+      }else{
+        let order = await new Order({
+          email: req.body.email,
+          orderID: req.body.oid,
+          address: req.body.address,
+          amount: req.body.subtotal,
+          products: req.body.cart,
+        });
+        await order.save();
+        res.status(200).json({ success:true,body: req.body });
+        // res.status(200).json({success:true});
+        return
+      }
+    }
+    if(sumtotal!==req.body.subtotal){
+      res.status(200).json({success:false, error: "The price of some items in your cart has been changed. Please try again." });
+      return
+    }else{
+      let order = await new Order({
+        email: req.body.email,
+        orderID: req.body.oid,
+        address: req.body.address,
+        amount: req.body.subtotal,
+        products: req.body.cart,
+      });
+      await order.save();
+      res.status(200).json({ success:true,body: req.body });
+    }
 
-    let order = await new Order({
-      email: req.body.email,
-      orderID: req.body.oid,
-      address: req.body.address,
-      amount: req.body.subtotal,
-      products: req.body.cart,
-    });
-    await order.save();
-    res.status(200).json({body:req.body})
+    
     //   const {name,email}=req.body
     //   let u = await new User({name,email,password:CryptoJS.AES.encrypt(req.body.password,'secret123').toString()})
     //   await u.save()
