@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import mongoose from "mongoose";
 import Product from "../../models/Product";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,7 +14,7 @@ const Post = ({ buyNow, addToCart, product, variants }) => {
   const checkServicability = async () => {
     let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
     let pinJson = await pins.json();
-    if (pinJson.includes(parseInt(pin))) {
+    if (Object.keys(pinJson).includes(pin)) {
       setservice(true);
       toast.success("Your Pincode is serviceable!", {
         position: "top-right",
@@ -40,16 +40,22 @@ const Post = ({ buyNow, addToCart, product, variants }) => {
       });
     }
   };
+  const [color, setcolor] = useState(product.color);
+  const [size, setsize] = useState(product.size); 
+  useEffect(() => {
+    setcolor(product.color)
+    setsize(product.size)
+  }, [router.query])
+  
 
   const onChangePin = (e) => {
     setpin(e.target.value);
   };
 
-  const [color, setcolor] = useState(product.color);
-  const [size, setsize] = useState(product.size);
+  
   const refreshVariants = (newsize, newcolor) => {
     let url = `${process.env.NEXT_PUBLIC_HOST}/product/${variants[newcolor][newsize]["slug"]}`;
-    window.location = url;
+    router.push(url)
   };
 
   return (
@@ -261,14 +267,14 @@ const Post = ({ buyNow, addToCart, product, variants }) => {
               </div>
               <div class="flex">
                 <span class="title-font font-medium text-2xl ml-2 text-gray-900">
-                  ₹490
+                  ₹{product.price}
                 </span>
                 <button
                   onClick={() => {
                     buyNow(
                       slug,
                       1,
-                      499,
+                      product.price,
                       product.title,
                       product.size,
                       product.color
@@ -283,7 +289,7 @@ const Post = ({ buyNow, addToCart, product, variants }) => {
                     addToCart(
                       slug,
                       1,
-                      499,
+                      product.price,
                       product.title,
                       product.size,
                       product.color
