@@ -3,11 +3,19 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import Head from "next/head";
 
 const Login = () => {
   const Router = useRouter();
-  const [email, setemail] = useState();
-  const [password, setpassword] = useState();
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("myuser")) {
+      Router.push("/");
+    }
+  }, []);
 
   const handleChange = (e) => {
     if (e.target.name == "email") {
@@ -19,7 +27,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = { email, password };
-    let res = await fetch("http://localhost:3000/api/login", {
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,11 +35,15 @@ const Login = () => {
       body: JSON.stringify(data),
     });
     let response = await res.json();
-    console.log(response);
+
     setemail("");
     setpassword("");
     if (response.success) {
-      localStorage.setItem('token',response.token)
+      localStorage.setItem(
+        "myuser",
+        JSON.stringify({ token: response.token, email: response.email })
+      );
+
       toast.success("You are successfully logged in!", {
         position: "top-right",
         autoClose: 2000,
@@ -43,7 +55,7 @@ const Login = () => {
         theme: "light",
       });
       setTimeout(() => {
-        Router.push("http://localhost:3000");
+        Router.push(`${process.env.NEXT_PUBLIC_HOST}`);
       }, 2000);
     } else {
       toast.error(response.error, {
@@ -60,6 +72,12 @@ const Login = () => {
   };
   return (
     <section className="h-screen m-auto">
+      <Head>
+        <title>Care-Leisure.com-Wear the style</title>
+        <meta name="description" content="StylesWear" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <ToastContainer />
       <div className="container h-full px-6 py-24 m-auto">
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between m-auto">
@@ -110,13 +128,7 @@ const Login = () => {
                   <button class="text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                     Signin
                   </button>
-                  <div className="mt-3">
-                    <Link legacyBehavior href={"/forgot"}>
-                      <a class="text-primary transition duration-150 ease-in-out hover:text-indigo-900 text-indigo-700">
-                        Forgot password?
-                      </a>
-                    </Link>
-                  </div>
+
                   <div class="flex items-center justify-between mt-6 pb-6">
                     <p class="mb-0 mr-2">Do not have an account?</p>
                     <Link href={"/signup"}>
