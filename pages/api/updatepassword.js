@@ -24,7 +24,7 @@ async function handler(req, res) {
     }else{
         res.status(200).json({ success: false });
     }
-    // const { name, email, address, pincode } = dbuser;
+   
   } else {
     res.status(400).json({ error: "error" });
   }
