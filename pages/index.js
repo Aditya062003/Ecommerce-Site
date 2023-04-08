@@ -1,148 +1,104 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {useEffect} from 'react'
+import Head from 'next/head'
+import Image from 'next/image'
+import { Inter } from 'next/font/google'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
-const Login = () => {
-  const Router = useRouter();
-  const [email, setemail] = useState('');
-  const [password, setpassword] = useState('');
 
-  useEffect(() => {
-    if(localStorage.getItem('token')){
-      Router.push('/')
-    }
-  }, []);
+const inter = Inter({ subsets: ['latin'] })
 
-  const handleChange = (e) => {
-    if (e.target.name == "email") {
-      setemail(e.target.value);
-    } else if (e.target.name == "password") {
-      setpassword(e.target.value);
-    }
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = { email, password };
-    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    let response = await res.json();
-    // console.log(response);
-    setemail("");
-    setpassword("");
-    if (response.success) {
-      localStorage.setItem('token',response.token)
-      toast.success("You are successfully logged in!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      setTimeout(() => {
-        Router.push(`${process.env.NEXT_PUBLIC_HOST}`);
-      }, 2000);
-    } else {
-      toast.error(response.error, {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-  };
+export default function Home() {
   return (
-    <section className="h-screen m-auto">
-      <ToastContainer />
-      <div className="container h-full px-6 py-24 m-auto">
-        <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between m-auto">
-          <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
-            <img
-              src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-              className="w-full"
-              alt="Phone image"
-            />
+    <>
+      <Head>
+        <title>Care-Leisure.com-Wear the style</title>
+        <meta name="description" content="StylesWear" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+       
+       <img className='bg-cover bg-center m-auto' src="/home2.gif" alt="" />
+       <section class="text-gray-600 body-font">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap w-full mb-20 flex-col items-center text-center">
+      <h1 class="sm:text-3xl text-2xl font-medium font-serif mb-2 text-indigo-800"> OUR POPULAR PRODUCTS</h1>
+    
+    </div>
+    <div class="flex flex-wrap -m-4">
+      <div class="xl:w-1/3 md:w-1/2 p-4">
+        <div class="border border-gray-200 p-6 rounded-lg">
+          <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
           </div>
-          <div className="md:w-8/12 lg:ml-6 lg:w-5/12">
-            <form onSubmit={handleSubmit} method="POST">
-              <div class="container flex">
-                <div class="lg:w-3/4 bg-white rounded-lg p-8 flex flex-col mx-auto w-full mt-10 md:mt-0 shadow-xl">
-                  <h1 class="text-gray-900 mb-3 text-2xl text-center font-bold title-font">
-                    Please login to your Account
-                  </h1>
-                  <div class="relative mb-4">
-                    <label for="email" class="leading-7 text-sm text-gray-600">
-                      Email
-                    </label>
-                    <input
-                      onChange={handleChange}
-                      value={email}
-                      type="email"
-                      id="email"
-                      name="email"
-                      class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                  </div>
-                  <div class="relative mb-4">
-                    <label
-                      for="password"
-                      class="leading-7 text-sm text-gray-600"
-                    >
-                      Password
-                    </label>
-                    <input
-                      onChange={handleChange}
-                      value={password}
-                      type="password"
-                      id="password"
-                      name="password"
-                      class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                  </div>
-
-                  <button class="text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                    Signin
-                  </button>
-                  <div className="mt-3">
-                    <Link legacyBehavior href={"/forgot"}>
-                      <a class="text-primary transition duration-150 ease-in-out hover:text-indigo-900 text-indigo-700">
-                        Forgot password?
-                      </a>
-                    </Link>
-                  </div>
-                  <div class="flex items-center justify-between mt-6 pb-6">
-                    <p class="mb-0 mr-2">Do not have an account?</p>
-                    <Link href={"/signup"}>
-                      <button
-                        type="button"
-                        className="text-indigo-600 border border-indigo-600 py-2 px-4 focus:outline-none hover:text-white hover:bg-indigo-600 rounded text-lg"
-                      >
-                        Register
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
+          <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
+          <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
         </div>
       </div>
-    </section>
-  );
-};
-
-export default Login;
+      <div class="xl:w-1/3 md:w-1/2 p-4">
+        <div class="border border-gray-200 p-6 rounded-lg">
+          <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
+            </svg>
+          </div>
+          <h2 class="text-lg text-gray-900 font-medium title-font mb-2">The Catalyzer</h2>
+          <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+        </div>
+      </div>
+      <div class="xl:w-1/3 md:w-1/2 p-4">
+        <div class="border border-gray-200 p-6 rounded-lg">
+          <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+          <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Neptune</h2>
+          <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+        </div>
+      </div>
+      <div class="xl:w-1/3 md:w-1/2 p-4">
+        <div class="border border-gray-200 p-6 rounded-lg">
+          <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"></path>
+            </svg>
+          </div>
+          <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Melanchole</h2>
+          <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+        </div>
+      </div>
+      <div class="xl:w-1/3 md:w-1/2 p-4">
+        <div class="border border-gray-200 p-6 rounded-lg">
+          <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+          </div>
+          <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Bunker</h2>
+          <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+        </div>
+      </div>
+      <div class="xl:w-1/3 md:w-1/2 p-4">
+        <div class="border border-gray-200 p-6 rounded-lg">
+          <div class="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h2 class="text-lg text-gray-900 font-medium title-font mb-2">Ramona Falls</h2>
+          <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waist co, subway tile poke farm.</p>
+        </div>
+      </div>
+    </div>
+    <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+  </div>
+</section>
+       
+      </>
+  )
+}
