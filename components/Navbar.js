@@ -38,13 +38,7 @@ const Navbar = ({
   const ref = useRef();
   const toggleCart = () => {
     setsidebar(!sidebar);
-    // if (ref.current.classList.contains("translate-x-full")) {
-    //   ref.current.classList.remove("translate-x-full");
-    //   ref.current.classList.add("translate-x-0");
-    // } else if (!ref.current.classList.contains("translate-x-full")) {
-    //   ref.current.classList.add("translate-x-full");
-    //   ref.current.classList.remove("translate-x-0");
-    // }
+
   };
   return (
     <>
