@@ -4,6 +4,7 @@ import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useEffect} from 'react'
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Signup = () => {
   let Router=useRouter()
@@ -37,13 +38,13 @@ const Signup = () => {
       body: JSON.stringify(data),
     })
     let response = await res.json()
-    // console.log(response)
+    
     setemail('')
     setname('')
     setpassword('')
     toast.success("Your account has been successfully created!", {
       position: "top-right",
-      autoClose: 4000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -51,9 +52,18 @@ const Signup = () => {
       progress: undefined,
       theme: "light",
     });
+    setTimeout(() => {
+      Router.push('/login');
+    }, 3000);
   };
   return (
     <section className="h-screen m-auto">
+    <Head>
+        <title>Care-Leisure.com-Wear the style</title>
+        <meta name="description" content="StylesWear" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <ToastContainer/>
       <div className="container h-full px-6 py-24 m-auto">
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between m-auto">
