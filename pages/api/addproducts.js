@@ -25,14 +25,3 @@ const handler = async (req, res) => {
 
 export default connectDb(handler);
 
-// {
-//     "title":"cool jeans",
-//     "slug":"cool-jeans",
-//     "desc":"desc",
-//     "img":"img",
-//     "category":"Jeans",
-//     "size":"M",
-//     "color":"Black",
-//     "price":"499",
-//     "availableQty":"2"
-// }
