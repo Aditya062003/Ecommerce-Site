@@ -3,35 +3,34 @@ import "@/styles/globals.css";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import LoadingBar from 'react-top-loading-bar'
+import LoadingBar from "react-top-loading-bar";
 
 export default function App({ Component, pageProps }) {
   const [cart, setcart] = useState({});
   const [subtotal, setsubtotal] = useState(0);
   const [user, setuser] = useState({ value: null });
   const [key, setkey] = useState(0);
-  const [progress, setProgress] = useState(0)
+  const [progress, setProgress] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
-    router.events.on('routeChangeStart',()=>{
-      setProgress(20)
-    })
-    router.events.on('routeChangeComplete',()=>{
-      setProgress(100)
-    })
+    router.events.on("routeChangeStart", () => {
+      setProgress(20);
+    });
+    router.events.on("routeChangeComplete", () => {
+      setProgress(100);
+    });
     try {
       if (localStorage.getItem("cart")) {
         setcart(JSON.parse(localStorage.getItem("cart")));
         saveCart(JSON.parse(localStorage.getItem("cart")));
       }
     } catch (error) {
-      console.error(error);
       localStorage.clear();
     }
-    const token = localStorage.getItem("token");
-    if (token) {
-      setuser({ value: token });
+    const myuser = JSON.parse(localStorage.getItem("myuser"));
+    if (myuser) {
+      setuser({ value: myuser, email: myuser.email });
       setkey(Math.random());
     }
   }, [router.query]);
@@ -41,7 +40,6 @@ export default function App({ Component, pageProps }) {
     let subt = 0;
     let keys = Object.keys(mycart);
     for (let i = 0; i < keys.length; i++) {
-      console.log(keys);
       subt += mycart[keys[i]].price * mycart[keys[i]].qty;
     }
     setsubtotal(subt);
@@ -49,12 +47,15 @@ export default function App({ Component, pageProps }) {
 
   const addToCart = (itemcode, qty, price, name, size, variant) => {
     let newcart = cart;
+    if (Object.keys(cart).length == 0) {
+      setkey(Math.random());
+    }
     if (itemcode in cart) {
       newcart[itemcode].qty = cart[itemcode].qty + qty;
     } else {
       newcart[itemcode] = { qty: 1, price, name, size, variant };
     }
-    console.log(newcart);
+
     setcart(newcart);
     saveCart(newcart);
   };
@@ -77,24 +78,25 @@ export default function App({ Component, pageProps }) {
   };
 
   const buyNow = (itemcode, qty, price, name, size, variant) => {
-    let newcart = { itemcode: { qty: 1, price, name, size, variant } };
+    let newcart = {};
+    newcart[itemcode] = { qty: 1, price, name, size, variant };
     setcart(newcart);
     saveCart(newcart);
-    console.log(newcart);
+
     router.push("/checkout");
   };
-  const logout = () =>{
-    localStorage.removeItem("token")
-    setuser({value:null})
+  const logout = () => {
+    localStorage.removeItem("myuser");
+    setuser({ value: null });
     setcart({});
     saveCart({});
-    setkey(Math.random())
-    router.push('/')
-  }
+    setkey(Math.random());
+    router.push("/");
+  };
   return (
     <div>
       <LoadingBar
-        color='#2764f2'
+        color="#2764f2"
         height={3}
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
@@ -111,6 +113,7 @@ export default function App({ Component, pageProps }) {
         subtotal={subtotal}
       />
       <Component
+        user={user}
         buyNow={buyNow}
         cart={cart}
         addToCart={addToCart}
