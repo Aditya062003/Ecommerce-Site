@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import LoadingBar from "react-top-loading-bar";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }) {
   const [cart, setcart] = useState({});
@@ -95,6 +96,9 @@ export default function App({ Component, pageProps }) {
   };
   return (
     <div>
+      <Head>
+        <title>Constant Title</title>
+      </Head>
       <LoadingBar
         color="#2764f2"
         height={3}
