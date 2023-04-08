@@ -27,9 +27,11 @@ const Navbar = ({
 
   useEffect(() => {
     Object.keys(cart).length != 0 && setsidebar(true);
-    let exempted = ["/checkout",'/order','/orders','/myaccount']
+    let exempted = ["/checkout",'/order','/orders','/myaccount','/','/payment','/forgot']
     if (exempted.includes(router.pathname)) {
       setsidebar(false);
+    }else{
+      setsidebar(true);
     }
   }, []);
 
@@ -59,20 +61,20 @@ const Navbar = ({
           <ul>
             <Link legacyBehavior href={"/myaccount"}>
               <a>
-                <li className="text-sm py-1 font-medium hover:text-indigo-700">
+                <li className="text-sm py-1 cursor-pointer font-medium hover:text-indigo-700">
                   My Account
                 </li>
               </a>
             </Link>
             <Link legacyBehavior href={"/orders"}>
               <a>
-                <li className="text-sm py-1 font-medium hover:text-indigo-700">
+                <li className="text-sm py-1 cursor-pointer font-medium hover:text-indigo-700">
                   Orders
                 </li>
               </a>
             </Link>
             <a onClick={logout}>
-              <li className="text-sm py-1 font-medium hover:text-indigo-700">
+              <li className="text-sm py-1 cursor-pointer font-medium hover:text-indigo-700">
                 Signout
               </li>
             </a>
