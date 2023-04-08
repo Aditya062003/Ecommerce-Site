@@ -4,11 +4,13 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Head from "next/head";
 
 const payment = ({ cart, subtotal }) => {
   const Router = useRouter();
   const checkpayment = async (e) => {
     const oid = localStorage.getItem("oid");
+    const txnId = localStorage.getItem("txnId");
     e.preventDefault();
     if (!oid) {
       toast.error("hello", {
@@ -22,7 +24,8 @@ const payment = ({ cart, subtotal }) => {
         theme: "light",
       });
     }
-    let data = { oid };
+
+    let data = { oid, txnId };
     let res = await fetch(
       `${process.env.NEXT_PUBLIC_HOST}/api/posttransaction`,
       {
@@ -33,15 +36,14 @@ const payment = ({ cart, subtotal }) => {
         body: JSON.stringify(data),
       }
     );
-    Router.push('/orders')
-    //   console.log(response);
+    Router.push("/orders");
   };
 
   const [accountNumber, setAccountNumber] = useState("");
 
   function handleAccountNumberChange(event) {
-    let input = event.target.value.replace(/\D/g, ""); // Remove all non-digits
-    input = input.replace(/(\d{4})(?=\d)/g, "$1-"); // Add hyphens every four digits
+    let input = event.target.value.replace(/\D/g, "");
+    input = input.replace(/(\d{4})(?=\d)/g, "$1-");
     setAccountNumber(input);
   }
 
@@ -114,9 +116,7 @@ const payment = ({ cart, subtotal }) => {
                 onClick={checkpayment}
                 class="outline-none pay h-12 bg-indigo-600 text-white mb-3 hover:bg-indigo-700 rounded-lg w-1/2 cursor-pointer transition-all"
               >
-                {/* <Link legacyBehavior href={"/orders"}> */}
                 Pay ₹{subtotal}
-                {/* </Link> */}
               </button>
             </div>
           </form>
