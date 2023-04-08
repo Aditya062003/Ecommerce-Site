@@ -4,13 +4,13 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { BsFillBagCheckFill } from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
-
-// import Head from "next/Head";
-// import Script from "next/script";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Head from "next/head";
 
 import { useState, useEffect } from "react";
 
-const Checkout = ({ cart, subtotal, addToCart, removeFromCart }) => {
+const Checkout = ({ cart, clearCart, subtotal, addToCart, removeFromCart }) => {
   const Router = useRouter();
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
@@ -20,7 +20,9 @@ const Checkout = ({ cart, subtotal, addToCart, removeFromCart }) => {
   const [disabled, setdisabled] = useState(true);
   const [city, setcity] = useState();
   const [state, setstate] = useState();
-  const handleChange = (e) => {
+  const [user, setuser] = useState();
+
+  const handleChange = async (e) => {
     if (e.target.name == "name") {
       setname(e.target.value);
     }
@@ -35,24 +37,33 @@ const Checkout = ({ cart, subtotal, addToCart, removeFromCart }) => {
     }
     if (e.target.name == "pincode") {
       setpincode(e.target.value);
+      if (e.target.value.length == 6) {
+        getPincode(e.target.value);
+      } else {
+        setstate("");
+        setcity("");
+      }
     }
-    if (name && email && pincode && phone) {
-      setdisabled(false);
-    }
-    // else{
-    //   setdisabled(true)
-    // }
   };
-  // const [txntoken, setTxntoken] = useState(null);
+
+  useEffect(() => {
+    if (name && pincode && phone && address) {
+      setdisabled(false);
+    } else {
+      setdisabled(true);
+    }
+  }, [name, pincode, phone, address]);
+
   const oid = uuidv4();
-  console.log("og oid", oid);
+  const txnId = uuidv4();
   const initiatePayment = async (e) => {
     e.preventDefault();
     const data = {
       cart,
       subtotal,
       oid,
-      email: email,
+      txnId,
+      email,
       name,
       address: address,
       pincode,
@@ -69,54 +80,92 @@ const Checkout = ({ cart, subtotal, addToCart, removeFromCart }) => {
       }
     );
     let response = await res.json();
-    localStorage.setItem('oid',response.body.oid)
+    if (response.success == true) {
+      localStorage.setItem("oid", response.body.oid);
+      localStorage.setItem("txnId", response.body.txnId);
+      Router.push("/payment");
+    }
+    if (response.success == false) {
+      if (response.cartclear) {
+        clearCart();
+      }
+      toast.error(response.error, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
+  const fetchData = async (token) => {
+    let data = { token: token };
 
-  //   console.log(response);
+    let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getuser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    let response = await res.json();
 
-  // useEffect(() => {
-  //   initiatePayment();
-  // }, []);
-
-  // // if (!txntoken) {
-  // //   return <div>Loading...</div>;
-  // // }
-
-  // var config = {
-  //   root: "",
-  //   flow: "DEFAULT",
-  //   data: {
-  //     orderId: oid /* update order id */,
-  //     token: txntoken /* update token value */,
-  //     tokenType: "TXN_TOKEN",
-  //     amount: subtotal /* update amount */,
-  //   },
-  //   handler: {
-  //     notifyMerchant: function (eventName, data) {
-  //       console.log("notifyMerchant handler function called");
-  //       console.log("eventName => ", eventName);
-  //       console.log("data => ", data);
-  //     },
-  //   },
-  // };
+    setname(response.name);
+    setaddress(response.address);
+    setpincode(response.pincode);
+    setphone(response.phone);
+    getPincode(response.pincode);
+  };
+  const getPincode = async (pin) => {
+    let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
+    let pinJson = await pins.json();
+    if (Object.keys(pinJson).includes(pin)) {
+      setcity(pinJson[pin][0]);
+      setstate(pinJson[pin][1]);
+    } else {
+      setstate("");
+      setcity("");
+    }
+  };
+  useEffect(() => {
+    const myuser = JSON.parse(localStorage.getItem("myuser"));
+    if (myuser && myuser.token) {
+      setuser(myuser);
+      setemail(myuser.email);
+      fetchData(myuser.token);
+    } else {
+      toast.error("Please Signup before ordering!", {
+        toastId: "error",
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        Router.push("/signup");
+      }, 3000);
+    }
+  }, []);
 
   return (
     <div className="container m-auto">
-      {/* <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"
-        />
+      <ToastContainer />
+      <Head>
+        <title>Care-Leisure.com-Wear the style</title>
+        <meta name="description" content="StylesWear" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Script
-        type="application/javascript"
-        src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}
-        crossorigin="anonymous"
-      /> */}
-      {/* Render the component after the Promise has resolved */}
 
       <h1 className="font-bold text-3xl my-6 text-center">Checkout</h1>
-      {/* <form onSubmit={initiatePayment} method="POST"> */}
+
       <h2 className="font-bold mb-2 mx-4">1. Delivery Details </h2>
       <div className="my-4 mx-auto">
         <div class="px-2 flex">
@@ -137,14 +186,26 @@ const Checkout = ({ cart, subtotal, addToCart, removeFromCart }) => {
             <label for="email" class="leading-7 text-sm text-gray-600">
               Email
             </label>
-            <input
-              onChange={handleChange}
-              value={email}
-              type="email"
-              id="email"
-              name="email"
-              class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-            />
+            {user && user.value ? (
+              <input
+                onChange={handleChange}
+                value={user.email}
+                type="email"
+                id="email"
+                name="email"
+                readOnly
+                class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            ) : (
+              <input
+                onChange={handleChange}
+                value={email}
+                type="email"
+                id="email"
+                name="email"
+                class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              />
+            )}
           </div>
         </div>
         <div class=" m-4">
@@ -191,24 +252,24 @@ const Checkout = ({ cart, subtotal, addToCart, removeFromCart }) => {
               State
             </label>
             <input
+              onChange={handleChange}
               value={state}
               type="text"
               id="state"
               name="state"
               class="w-full bg-gray-100 px-3 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1  leading-8 transition-colors duration-200 ease-in-out"
-              readOnly={true}
             />
           </div>
           <div class=" m-2 w-1/2">
             <label for="email" class="leading-7 text-sm text-gray-600">
-              City
+              District
             </label>
             <input
+              onChange={handleChange}
               value={city}
               type="text"
               id="city"
               name="city"
-              readOnly={true}
               class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
@@ -273,12 +334,10 @@ const Checkout = ({ cart, subtotal, addToCart, removeFromCart }) => {
           class="disabled:bg-blue-200 flex my-2 md:my-0 mx-auto text-white bg-indigo-500 border-0 py-3 px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm"
         >
           <BsFillBagCheckFill className="m-1" />
-          <Link legacyBehavior href={"/payment"}>
-            <a>Pay ₹{subtotal}</a>
-          </Link>
+          Pay ₹{subtotal}
         </button>
       </div>
-      {/* </form> */}
+      
     </div>
   );
 };
