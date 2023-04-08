@@ -97,7 +97,7 @@ export default function App({ Component, pageProps }) {
   return (
     <div>
       <Head>
-        <title>Constant Title</title>
+        <title>Care Leisure</title>
       </Head>
       <LoadingBar
         color="#2764f2"
