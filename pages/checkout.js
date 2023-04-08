@@ -68,6 +68,8 @@ const Checkout = ({ cart, clearCart, subtotal, addToCart, removeFromCart }) => {
       address: address,
       pincode,
       phone,
+      city,
+      state,
     };
     let res = await fetch(
       `${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`,
@@ -337,7 +339,6 @@ const Checkout = ({ cart, clearCart, subtotal, addToCart, removeFromCart }) => {
           Pay ₹{subtotal}
         </button>
       </div>
-      
     </div>
   );
 };
