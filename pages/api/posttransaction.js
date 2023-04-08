@@ -11,11 +11,7 @@ const handler = async (req, res) => {
   for (let slug in products){
     await Product.findOneAndUpdate({slug:slug},{$inc:{"availableQty": -products[slug].qty }})
   }
-  // let order = await Order.findOne({orderID:req.body.oid})
-  console.log("post oid", req.body.oid);
 
-  // Order.findByIdAndUpdate(order._id,{status : 'Paid'})
-  // res.status(200).json({body:req.body})
   res.redirect("/order?clearcart=1&id="+order._id, 200);
 };
 
