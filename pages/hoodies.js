@@ -90,8 +90,8 @@ const hoodies = ({ products }) => {
                       {products[item].color.includes("Maroon") && (
                         <button class="border-2 border-gray-400 ml-1 bg-[#800000]  rounded-full w-6 h-6 focus:outline-none"></button>
                       )}
-                      {products[item].color.includes("Green") && (
-                        <button class="border-2 border-gray-400 ml-1 bg-green-500  rounded-full w-6 h-6 focus:outline-none"></button>
+                      {products[item].color.includes("Grey") && (
+                        <button class="border-2 border-gray-700 ml-1 bg-gray-500  rounded-full w-6 h-6 focus:outline-none"></button>
                       )}
                       {products[item].color.includes("Yellow") && (
                         <button class="border-2 border-gray-400 ml-1 bg-yellow-300  rounded-full w-6 h-6 focus:outline-none"></button>
