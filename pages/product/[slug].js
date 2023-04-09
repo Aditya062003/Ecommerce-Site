@@ -95,6 +95,28 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                         } mx-1 rounded-full w-6 h-6 focus:outline-none`}
                       ></button>
                     )}
+                    {Object.keys(variants).includes("Dark Blue") &&
+                    Object.keys(variants["Dark Blue"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "Dark Blue");
+                        }}
+                        class={`border-2 ${
+                          color == "Dark Blue" ? "border-black" : "border-gray-500"
+                        } mx-1 rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
+                    {Object.keys(variants).includes("Maroon") &&
+                    Object.keys(variants["Maroon"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "Maroon");
+                        }}
+                        class={`border-2 ${
+                          color == "Maroon" ? "border-black" : "border-gray-500"
+                        } mx-1 rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
                   {Object.keys(variants).includes("Black") &&
                     Object.keys(variants["Black"]).includes(size) && (
                       <button
@@ -125,6 +147,28 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                         }}
                         class={`border-2 mx-1 bg-indigo-700 ${
                           color == "Blue" ? "border-black" : "border-gray-500"
+                        } rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
+                    {Object.keys(variants).includes("Yellow") &&
+                    Object.keys(variants["Yellow"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "Yellow");
+                        }}
+                        class={`border-2 mx-1 bg-indigo-700 ${
+                          color == "Yellow" ? "border-black" : "border-gray-500"
+                        } rounded-full w-6 h-6 focus:outline-none`}
+                      ></button>
+                    )}
+                    {Object.keys(variants).includes("Green") &&
+                    Object.keys(variants["Green"]).includes(size) && (
+                      <button
+                        onClick={() => {
+                          refreshVariants(size, "Green");
+                        }}
+                        class={`border-2 mx-1 bg-indigo-700 ${
+                          color == "Green" ? "border-black" : "border-gray-500"
                         } rounded-full w-6 h-6 focus:outline-none`}
                       ></button>
                     )}
