@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import Head from "next/head";
 
 const Tshirts = ({ products }) => {
-  // console.log(products);
   return (
     <section className="text-gray-600 min-h-screen body-font">
       <Head>
@@ -86,6 +85,15 @@ const Tshirts = ({ products }) => {
                       {products[item].color.includes("White") && (
                         <button class="border-2 border-gray-400 ml-1 bg-white  rounded-full w-6 h-6 focus:outline-none"></button>
                       )}
+                      {products[item].color.includes("Maroon") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-[#800000]  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
+                      {products[item].color.includes("Green") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-green-500  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
+                      {products[item].color.includes("Yellow") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-yellow-300  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -137,4 +145,5 @@ export async function getServerSideProps(context) {
 }
 
 export default Tshirts;
+
 
