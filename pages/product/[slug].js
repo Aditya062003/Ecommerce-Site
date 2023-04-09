@@ -154,6 +154,21 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                       {color && Object.keys(variants[color]).includes("XXL") && (
                         <option>XXL</option>
                       )}
+                      {color && Object.keys(variants[color]).includes("400ml") && (
+                        <option>400ml</option>
+                      )}
+                      {color && Object.keys(variants[color]).includes("500ml") && (
+                        <option>500ml</option>
+                      )}
+                      {color && Object.keys(variants[color]).includes("600ml") && (
+                        <option>600ml</option>
+                      )}
+                      {color && Object.keys(variants[color]).includes("800ml") && (
+                        <option>800ml</option>
+                      )}
+                      {color && Object.keys(variants[color]).includes("1L") && (
+                        <option>1L</option>
+                      )}
                     </select>
                     <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                       <svg
