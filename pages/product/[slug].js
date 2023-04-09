@@ -101,7 +101,7 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                         onClick={() => {
                           refreshVariants(size, "Dark Blue");
                         }}
-                        class={`border-2 ${
+                        class={`border-2 bg-blue-800 ${
                           color == "Dark Blue" ? "border-black" : "border-gray-500"
                         } mx-1 rounded-full w-6 h-6 focus:outline-none`}
                       ></button>
@@ -112,7 +112,7 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                         onClick={() => {
                           refreshVariants(size, "Maroon");
                         }}
-                        class={`border-2 ${
+                        class={`border-2 bg-[#800000] ${
                           color == "Maroon" ? "border-black" : "border-gray-500"
                         } mx-1 rounded-full w-6 h-6 focus:outline-none`}
                       ></button>
@@ -156,7 +156,7 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                         onClick={() => {
                           refreshVariants(size, "Yellow");
                         }}
-                        class={`border-2 mx-1 bg-indigo-700 ${
+                        class={`border-2 mx-1 bg-yellow-400 ${
                           color == "Yellow" ? "border-black" : "border-gray-500"
                         } rounded-full w-6 h-6 focus:outline-none`}
                       ></button>
@@ -167,7 +167,7 @@ const Post = ({ buyNow, addToCart, product, variants, error }) => {
                         onClick={() => {
                           refreshVariants(size, "Green");
                         }}
-                        class={`border-2 mx-1 bg-indigo-700 ${
+                        class={`border-2 mx-1 bg-green-500 ${
                           color == "Green" ? "border-black" : "border-gray-500"
                         } rounded-full w-6 h-6 focus:outline-none`}
                       ></button>
