@@ -84,6 +84,21 @@ const hoodies = ({ products }) => {
                       {products[item].color.includes("Green") && (
                         <button class="border-2 border-gray-300 ml-1 bg-green-600 rounded-full w-6 h-6 focus:outline-none"></button>
                       )}
+                      {products[item].color.includes("White") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-white  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
+                      {products[item].color.includes("Maroon") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-[#800000]  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
+                      {products[item].color.includes("Green") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-green-500  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
+                      {products[item].color.includes("Yellow") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-yellow-300  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
+                      {products[item].color.includes("Dark Blue") && (
+                        <button class="border-2 border-gray-400 ml-1 bg-blue-900  rounded-full w-6 h-6 focus:outline-none"></button>
+                      )}
                     </div>
                   </div>
                 </div>
