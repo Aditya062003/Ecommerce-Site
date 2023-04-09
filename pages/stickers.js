@@ -4,12 +4,18 @@ import Product from "../models/Product";
 import connectDb from "../middleware/mongoose";
 import mongoose from "mongoose";
 import Head from "next/head";
+import { useState } from "react";
 
 const stickers = ({ products }) => {
-  // console.log(products);
+  const [search, setsearch] = useState("");
+  const handleChange = (e) => {
+    if (e.target.name == "search") {
+      setsearch(e.target.value);
+    }
+  };
   return (
     <div>
-    <Head>
+      <Head>
         <title>Care-Leisure.com-Wear the style</title>
         <meta name="description" content="StylesWear" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,6 +23,27 @@ const stickers = ({ products }) => {
       </Head>
       <section className="text-gray-600 min-h-screen body-font">
         <div class="container  py-12 m-auto ">
+          <div className="flex flex-wrap mx-9 items-center justify-center m-auto">
+            <form action="">
+              <input
+                type="text"
+                placeholder="Search"
+                value={search}
+                name="search"
+                id="search"
+                onChange={handleChange}
+                className="border-2 border-gray-200 rounded-full py-2 px-4 w-full sm:w-64 md:w-96 lg:w-128 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+
+              <Link legacyBehavior href={"/searchs?squery=" + search}>
+                <a>
+                  <button className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline">
+                    Search
+                  </button>
+                </a>
+              </Link>
+            </form>
+          </div>
           <div class="flex flex-wrap mx-5 justify-center">
             {Object.keys(products).length === 0 && (
               <p>
