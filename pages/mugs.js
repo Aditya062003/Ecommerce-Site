@@ -46,29 +46,29 @@ const mugs = ({ products }) => {
                     </h2>
                     <p class="mt-1">₹{products[item].price}</p>
                     <div class="mt-1">
-                      {products[item].size.includes("S") && (
+                      {products[item].size.includes("400ml") && (
                         <span className="mx-1 py-2 hover:text-white hover:bg-gray-700 px-1 border border-gray-300">
-                          S
+                          400ml
                         </span>
                       )}
-                      {products[item].size.includes("M") && (
+                      {products[item].size.includes("500ml") && (
                         <span className="mx-1 px-2 py-1 hover:text-white hover:bg-gray-700 border border-gray-300">
-                          M
+                          500ml
                         </span>
                       )}
-                      {products[item].size.includes("L") && (
+                      {products[item].size.includes("600ml") && (
                         <span className="mx-1 px-2 border py-1 hover:text-white hover:bg-gray-700 border-gray-300">
-                          L
+                          600ml
                         </span>
                       )}
-                      {products[item].size.includes("XL") && (
+                      {products[item].size.includes("800ml") && (
                         <span className="mx-1 px-2 border py-1 hover:text-white hover:bg-gray-700 border-gray-300">
-                          XL
+                          800ml
                         </span>
                       )}
-                      {products[item].size.includes("XXL") && (
+                      {products[item].size.includes("1L") && (
                         <span className="mx-1 px-2 border py-1 hover:text-white hover:bg-gray-700 border-gray-300">
-                          XXL
+                          1L
                         </span>
                       )}
                     </div>
