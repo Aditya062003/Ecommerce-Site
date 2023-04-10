@@ -27,11 +27,12 @@ const Navbar = ({
 
   useEffect(() => {
     Object.keys(cart).length != 0 && setsidebar(true);
-    let exempted = ["/checkout",'/order','/orders','/myaccount','/','/payment','/forgot']
-    if (exempted.includes(router.pathname)) {
-      setsidebar(false);
-    }else{
+    // let exempted = ["/checkout",'/order','/orders','/myaccount','/','/payment','/forgot','/admin']
+    let allowed = ['/tshirts','/mugs','/stickers','/hoodies']
+    if (allowed.includes(router.pathname)) {
       setsidebar(true);
+    }else{
+      setsidebar(false);
     }
   }, []);
 
