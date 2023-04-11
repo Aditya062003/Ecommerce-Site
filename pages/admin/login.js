@@ -127,7 +127,7 @@ const Login = () => {
                     />
                   </div>
 
-                  <button class="text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                  <button class="text-white bg-indigo-500 w-[40%] m-auto py-2 px-3 mt-2 focus:outline-none hover:bg-indigo-600 rounded-lg text-lg">
                     Signin
                   </button>
                 </div>
