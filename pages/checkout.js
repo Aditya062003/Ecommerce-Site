@@ -159,6 +159,11 @@ const Checkout = ({ cart, clearCart, subtotal, addToCart, removeFromCart }) => {
   return (
     <div className="container m-auto">
       <ToastContainer />
+      <style jsx global>{`
+        footer {
+          display: none;
+        }
+      `}</style>
       <Head>
         <title>Care-Leisure.com-Wear the style</title>
         <meta name="description" content="StylesWear" />
