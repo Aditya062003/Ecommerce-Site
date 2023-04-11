@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 
 const Login = () => {
-  const Router = useRouter()
+  const Router = useRouter();
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const handleChange = (e) => {
@@ -33,7 +33,10 @@ const Login = () => {
     if (response.success) {
       localStorage.setItem(
         "adminuser",
-        JSON.stringify({ admintoken: response.admintoken, email: response.email })
+        JSON.stringify({
+          admintoken: response.admintoken,
+          email: response.email,
+        })
       );
 
       toast.success("Admin successfully logged in!", {
@@ -64,7 +67,7 @@ const Login = () => {
   };
   return (
     <section className="h-screen m-auto">
-    <style jsx global>{`
+      <style jsx global>{`
         footer {
           display: none;
         }
@@ -78,7 +81,7 @@ const Login = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ToastContainer />
-      <div className="container h-full px-6 py-24 m-auto">
+      <div className="container h-full px-6 py-24 m-auto mb-6">
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between m-auto">
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
             <img
@@ -127,18 +130,6 @@ const Login = () => {
                   <button class="text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                     Signin
                   </button>
-
-                  <div class="flex items-center justify-between mt-6 pb-6">
-                    <p class="mb-0 mr-2">Do not have an account?</p>
-                    <Link href={"/signup"}>
-                      <button
-                        type="button"
-                        className="text-indigo-600 border border-indigo-600 py-2 px-4 focus:outline-none hover:text-white hover:bg-indigo-600 rounded text-lg"
-                      >
-                        Register
-                      </button>
-                    </Link>
-                  </div>
                 </div>
               </div>
             </form>
