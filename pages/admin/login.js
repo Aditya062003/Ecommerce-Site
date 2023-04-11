@@ -64,6 +64,11 @@ const Login = () => {
   };
   return (
     <section className="h-screen m-auto">
+    <style jsx global>{`
+        footer {
+          display: none;
+        }
+      `}</style>
       <Head>
         <title>Care-Leisure.com-Wear the style</title>
         <meta name="description" content="StylesWear" />
