@@ -86,6 +86,63 @@ export default function Home() {
                 </div>
               </Link>
             </div>
+            <div class="xl:w-1/3 md:w-1/2 p-4">
+              <Link
+                href={
+                  "https://ecommerce-care-leisure.vercel.app/product/Men-&-Women-Full-Sleeve-Printed-Reversible-Hooded-Sweatshirt-DarkBlue-XL"
+                }
+              >
+                <div class="border border-gray-200 cursor-pointer p-6 rounded-lg">
+                  <div class="">
+                    <img src="https://rukminim1.flixcart.com/image/832/832/xif0q/sweatshirt/e/y/b/m-hoodies-s-big-hub-original-imagjjgzxrgy5dcb.jpeg?q=70"></img>
+                  </div>
+                  <h2 class="text-lg text-gray-900 font-medium title-font mt-2 mb-2">
+                  Men & Women Full Sleeve Printed Reversible Hooded Sweatshirt
+                  </h2>
+                  <p class="leading-relaxed text-base">
+                  This particular sweatshirt is "printed" with designs or patterns on both the inside and outside of the garment, which allows it to be worn inside out or right side in, depending on personal preference.
+                  </p>
+                </div>
+              </Link>
+            </div>
+            <div class="xl:w-1/3 md:w-1/2 p-4">
+              <Link
+                href={
+                  "https://ecommerce-care-leisure.vercel.app/product/Women-Solid-Round-Neck-Red-T-Shirt-S"
+                }
+              >
+                <div class="border border-gray-200 cursor-pointer p-6 rounded-lg">
+                  <div class="">
+                    <img src="https://rukminim1.flixcart.com/image/832/832/xif0q/t-shirt/i/a/e/m-wtr-s-hero-piyush-original-imafwyfbmdqgptph-bb.jpeg?q=70"></img>
+                  </div>
+                  <h2 class="text-lg text-gray-900 font-medium title-font mt-2 mb-2">
+                  Women Solid Round Neck Red T-Shirt
+                  </h2>
+                  <p class="leading-relaxed text-base">
+                  The round neckline is a classic style that is popular with many women and is flattering to most face shapes.
+                  </p>
+                </div>
+              </Link>
+            </div>
+            <div class="xl:w-1/3 md:w-1/2 p-4">
+              <Link
+                href={
+                  "https://ecommerce-care-leisure.vercel.app/product/Men-Full-Sleeve-Graphic-Print-Hooded-Sweatshirt-L"
+                }
+              >
+                <div class="border border-gray-200 cursor-pointer p-6 rounded-lg">
+                  <div class="">
+                    <img src="https://rukminim1.flixcart.com/image/832/832/xif0q/sweatshirt/p/f/f/xxl-beard-yfb-original-imagjkh3mzdcb7zv.jpeg?q=70"></img>
+                  </div>
+                  <h2 class="text-lg text-gray-900 font-medium title-font mt-2 mb-2">
+                  Men Full Sleeve Graphic Print Hooded Sweatshirt
+                  </h2>
+                  <p class="leading-relaxed text-base">
+                  Crafted from soft and comfortable fabric, this sweatshirt features a full sleeve design with a trendy graphic print that will make you stand out from the crowd.
+                  </p>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
