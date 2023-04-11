@@ -6,11 +6,36 @@ import { Grid } from "@mui/material";
 import Order from "../../models/Order";
 import AllOrdersTable from "../../src/components/dashboard/AllOrdersTable";
 import mongoose from "mongoose";
+import { useState,useEffect } from "react";
+import { useRouter } from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AllOrders = ({orders}) => {
+  const Router = useRouter()
+  useEffect(() => {
+    const adminuser = JSON.parse(localStorage.getItem("adminuser"));
+    if(!adminuser){
+      toast.error("Only admins are authorized to view this page!", {
+        toastId: "error",
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setTimeout(() => {
+        Router.push(`${process.env.NEXT_PUBLIC_HOST}/admin/login`);
+      }, 1000);
+    }
+  },[])
   
   return (
     <ThemeProvider theme={theme}>
+    <ToastContainer/>
       <style jsx global>{`
         footer {
           display: none;
