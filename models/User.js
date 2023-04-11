@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    admin:{type: String, default: false},
     password: { type: String, required: true },
     address: { type: String, default: "" },
     pincode: { type: String, default: "" },
@@ -14,3 +15,4 @@ const UserSchema = new mongoose.Schema(
 
 mongoose.models = {};
 export default mongoose.model("User", UserSchema);
+
