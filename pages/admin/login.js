@@ -68,6 +68,8 @@ const Login = () => {
         footer {
           display: none;
         }
+        navbar{
+          display:none;
       `}</style>
       <Head>
         <title>Care-Leisure.com-Wear the style</title>
