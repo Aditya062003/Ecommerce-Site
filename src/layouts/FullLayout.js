@@ -12,14 +12,12 @@ import Footer from "./footer/Footer";
 const MainWrapper = experimentalStyled("div")(() => ({
   display: "flex",
   minHeight: "100vh",
-  overflow: "hidden",
   width: "100%",
 }));
 
 const PageWrapper = experimentalStyled("div")(({ theme }) => ({
   display: "flex",
   flex: "1 1 auto",
-  overflow: "hidden",
 
   backgroundColor: theme.palette.background.default,
   [theme.breakpoints.up("lg")]: {
