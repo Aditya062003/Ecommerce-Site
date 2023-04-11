@@ -338,7 +338,7 @@ const Checkout = ({ cart, clearCart, subtotal, addToCart, removeFromCart }) => {
         <button
           onClick={initiatePayment}
           disabled={disabled}
-          class="disabled:bg-blue-200 flex my-2 md:my-0 mx-auto text-white bg-indigo-500 border-0 py-3 px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm"
+          class="disabled:bg-blue-200 flex my-2 mb-2 md:my-0 mx-auto text-white bg-indigo-500 border-0 py-3 px-4 focus:outline-none hover:bg-indigo-600 rounded text-sm"
         >
           <BsFillBagCheckFill className="m-1" />
           Pay ₹{subtotal}
