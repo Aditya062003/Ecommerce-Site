@@ -50,6 +50,11 @@ const payment = ({ cart, subtotal }) => {
   return (
     <div>
       <ToastContainer />
+      <style jsx global>{`
+        footer {
+          display: none;
+        }
+      `}</style>
       <div class="flex justify-center items-center min-h-screen bg-gray-100">
         <div class="h-auto w-80 bg-white p-3 rounded-lg">
           <p class="text-xl font-semibold">Payment Details</p>
