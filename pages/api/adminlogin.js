@@ -26,7 +26,7 @@ const handler = async (req, res) => {
             .status(400)
             .json({
               success: false,
-              error: "Only Admins has access to this page.",
+              error: "This email address is not authorized to view Admin page.",
             });
         }
       } else {
