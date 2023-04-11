@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import FeatherIcon from "feather-icons-react";
 import Image from "next/image";
 import userimg from "../../../assets/images/users/user2.jpg";
@@ -14,6 +15,7 @@ import {
   Divider,
 } from "@mui/material";
 const ProfileDD = () => {
+  const Router = useRouter()
   const [anchorEl4, setAnchorEl4] = React.useState(null);
 
   const handleClick4 = (event) => {
@@ -23,6 +25,10 @@ const ProfileDD = () => {
   const handleClose4 = () => {
     setAnchorEl4(null);
   };
+  const handleLogout = () =>{
+    localStorage.removeItem("adminuser");
+    Router.push('/admin/login')
+  }
   return (
     <>
       <Button
@@ -64,7 +70,7 @@ const ProfileDD = () => {
                 ml: 1,
               }}
             >
-              Julia
+              Admin
             </Typography>
             <FeatherIcon icon="chevron-down" width="20" height="20" />
           </Box>
@@ -105,11 +111,9 @@ const ProfileDD = () => {
           </Box>
           <Divider />
           <Box p={2}>
-            <Link to="/">
-              <Button fullWidth variant="contained" color="primary">
-                Logout
-              </Button>
-            </Link>
+            <Button onClick={handleLogout} fullWidth variant="outlined" color="primary">
+              Logout
+            </Button>
           </Box>
         </Box>
       </Menu>
