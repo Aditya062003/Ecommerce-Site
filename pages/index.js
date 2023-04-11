@@ -70,6 +70,25 @@ export default function Home() {
             <div class="xl:w-1/3 md:w-1/2 p-4">
               <Link
                 href={
+                  "https://ecommerce-care-leisure.vercel.app/product/Women-Solid-Round-Neck-Red-T-Shirt-S"
+                }
+              >
+                <div class="border border-gray-200 cursor-pointer p-6 rounded-lg">
+                  <div class="">
+                    <img src="https://rukminim1.flixcart.com/image/832/832/xif0q/t-shirt/i/a/e/m-wtr-s-hero-piyush-original-imafwyfbmdqgptph-bb.jpeg?q=70"></img>
+                  </div>
+                  <h2 class="text-lg text-gray-900 font-medium title-font mt-2 mb-2">
+                  Women Solid Round Neck Red T-Shirt
+                  </h2>
+                  <p class="leading-relaxed text-base">
+                  The round neckline is a classic style that is popular with many women and is flattering to most face shapes.
+                  </p>
+                </div>
+              </Link>
+            </div>
+            <div class="xl:w-1/3 md:w-1/2 p-4">
+              <Link
+                href={
                   "https://care-leisure-site.vercel.app/product/Women-Full-Sleeve-Solid-Hooded-Sweatshirt-Black-L"
                 }
               >
@@ -101,25 +120,6 @@ export default function Home() {
                   </h2>
                   <p class="leading-relaxed text-base">
                   This particular sweatshirt is "printed" with designs or patterns on both the inside and outside of the garment, which allows it to be worn inside out or right side in, depending on personal preference.
-                  </p>
-                </div>
-              </Link>
-            </div>
-            <div class="xl:w-1/3 md:w-1/2 p-4">
-              <Link
-                href={
-                  "https://ecommerce-care-leisure.vercel.app/product/Women-Solid-Round-Neck-Red-T-Shirt-S"
-                }
-              >
-                <div class="border border-gray-200 cursor-pointer p-6 rounded-lg">
-                  <div class="">
-                    <img src="https://rukminim1.flixcart.com/image/832/832/xif0q/t-shirt/i/a/e/m-wtr-s-hero-piyush-original-imafwyfbmdqgptph-bb.jpeg?q=70"></img>
-                  </div>
-                  <h2 class="text-lg text-gray-900 font-medium title-font mt-2 mb-2">
-                  Women Solid Round Neck Red T-Shirt
-                  </h2>
-                  <p class="leading-relaxed text-base">
-                  The round neckline is a classic style that is popular with many women and is flattering to most face shapes.
                   </p>
                 </div>
               </Link>
