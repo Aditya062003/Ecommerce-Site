@@ -27,7 +27,7 @@ const Navbar = ({
 
   useEffect(() => {
     Object.keys(cart).length != 0 && setsidebar(true);
-    // let exempted = ["/checkout",'/order','/orders','/myaccount','/','/payment','/forgot','/admin']
+    
     let allowed = ['/tshirts','/mugs','/stickers','/hoodies']
     if (allowed.includes(router.pathname)) {
       setsidebar(true);
@@ -51,7 +51,7 @@ const Navbar = ({
           onMouseLeave={() => {
             setdropdown(false);
           }}
-          className="absolute top-12 rounded-md px-5 bg-gray-100 right-20 w-32 z-30"
+          className="fixed top-12 rounded-md px-5 bg-gray-100 right-20 w-32 z-30"
         >
           <ul>
             <Link legacyBehavior href={"/myaccount"}>
