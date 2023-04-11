@@ -26,6 +26,17 @@ const Add = () => {
             [e.target.name]:e.target.value
         })
     }
+    const handleClick = async ()=>{
+      const data = form
+      let a = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/addproducts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      let res = await a.json();
+    }
   return (
     <ThemeProvider theme={theme}>
       <style jsx global>{`
@@ -74,18 +85,25 @@ const Add = () => {
                   variant="outlined"
                   onChange={onChange}
                 />
+                <TextField
+                  label="Image URL"
+                  value={form.img}
+                  name="img"
+                  variant="outlined"
+                  onChange={onChange}
+                />
                 <TextField label="Size" onChange={onChange} value={form.size} name="size" variant="outlined" />
                 <TextField label="Color" onChange={onChange} value={form.color} name="color" variant="outlined" />
-                <TextField label="Price" onChange={onChange} value={form.amount} name="amount" variant="outlined" />
+                <TextField label="Price" onChange={onChange} value={form.price} name="price" variant="outlined" />
                 <TextField
                   label="AvaiableQty"
-                  name="availableqty"
+                  name="availableQty"
                   onChange={onChange}
                   variant="outlined"
                 />
               </Stack>
               <br/>
-              <Button variant="outlined" mt={2}>
+              <Button variant="outlined" onClick={handleClick} mt={2}>
                 Submit
               </Button>
             </BaseCard>
