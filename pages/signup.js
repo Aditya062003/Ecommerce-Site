@@ -65,6 +65,11 @@ const Signup = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ToastContainer/>
+      <style jsx global>{`
+        footer {
+          display: none;
+        }
+      `}</style>
       <div className="container h-full px-6 py-24 m-auto">
         <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between m-auto">
           <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12">
