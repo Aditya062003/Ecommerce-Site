@@ -87,7 +87,7 @@ const Footer = () => {
         <div class="bg-gray-100">
           <div class="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
             <p class="text-gray-500 text-sm text-center sm:text-left">
-              © 2023 Styles Wear —
+              © 2023 Care Leisure —
               <a
                 href="https://twitter.com/knyttneve"
                 rel="noopener noreferrer"
